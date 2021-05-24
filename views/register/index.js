@@ -3,10 +3,10 @@ import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import Layout from "../layout"
-import { Avatar } from "react-native-elements";
+import RegisterForm  from '../../components/category/auth/RegisterForm'
 import user from '../../assets/png/default-user-image.png'
 import {LayoutStyles} from '../../components/category/styles';
-
+import { Avatar } from 'react-native-paper';
 
 import {
     SafeAreaView,
@@ -18,44 +18,31 @@ import {
     Button,
     Image,
     StatusBar,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView
 } from 'react-native';
+import { Platform } from 'react-native';
 
 const width = Dimensions.get('window').width
 
-console.log(auth)
-
-import {
-    Header,
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
 const Register = ({navigation}) => {
-const [email, setEmail] = useState(null)
-const [password, setPassword] = useState(null)
 
-async function register(){
-    try {
-    const authStatus = await auth().createUserWithEmailAndPassword(email, password)
-    const userInDB = await firestore()
-    .collection('users')
-    .doc(authStatus.user.uid)
-    .set({email})
+const [showLogin, setShowLogin] = useState(false)
 
-    } catch(e) {
-    console.log(e)
-    }
-}
 
 return (
     <>
     <Layout nav={() => navigation.openDrawer()}/>
         <View style={LayoutStyles.container}>
-            <Text style={styles.titulo}>LOGIN</Text>
-            <Image style={styles.user} source={user}/>
+       
+        
+            {
+               showLogin ?  <Text style={styles.titulo} >LOGIN</Text>
+               : <RegisterForm/>
+            }
+        
+          
         </View>
 
 
@@ -87,6 +74,7 @@ return (
     );
 };
 
+
 const styles = StyleSheet.create({
     user:{
         width:"100%",
@@ -99,7 +87,7 @@ const styles = StyleSheet.create({
         fontSize: width/18, 
         fontWeight: 'bold', 
         marginVertical: 5,
-        marginLeft: width/2.8,
+        marginLeft: width/3,
         paddingBottom:20
     }
 })

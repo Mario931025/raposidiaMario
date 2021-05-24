@@ -1,3 +1,3 @@
 import LayoutStyles from './LayoutStyles';
-
-export {LayoutStyles}
+import formStyles from './FormStyle'
+export {LayoutStyles,formStyles}
