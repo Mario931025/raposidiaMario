@@ -5,7 +5,11 @@ import colors from './Colors'
 
 const formStyles = StyleSheet.create({
     input:{
-        marginBottom:20
+        marginBottom:8,
+        height:40,
+        borderWidth:2,
+        borderColor:"#967B4A",
+        backgroundColor:"#fff"
     },
     btnSucces:{
         padding: 5,
@@ -17,6 +21,9 @@ const formStyles = StyleSheet.create({
     },
     btnTextLabel:{
         color: colors.dark
+    },
+    i:{
+
     }
 })
 

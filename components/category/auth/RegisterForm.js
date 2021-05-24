@@ -48,18 +48,20 @@ const RegisterForm = ({navigation}) => {
          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" :"height"}>
             <Text style={styles.titulo} >REGISTRO</Text>
             <Image style={styles.user} source={require('../../../assets/png/default-user-image.png')}/>
-
+            <Text> EMAIL</Text>
             <TextInput
-                label="EMAIL"
+                underlineColor="#967B4A"
                 style={[formStyles.input,formStyles.btnText]}
             />
+            <Text> CONTRASEÑA</Text>
              <TextInput
-                label="CONTRASEÑA"
+                
                 style={[formStyles.input,formStyles.btnText]}
                 secureTextEntry
             />
+             <Text> REPETIR CONTRASEÑA</Text>
              <TextInput
-                label=" REPETIR CONTRASEÑA"
+                
                 style={[formStyles.input,formStyles.btnText]}
                 secureTextEntry
             />
