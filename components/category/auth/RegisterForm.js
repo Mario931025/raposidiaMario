@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {TextInput,Button} from 'react-native-paper'
 import 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import Layout from "../../../views/layout"
 import {LayoutStyles, formStyles } from '../../../components/category/styles';
-
+import firebase from '../../../utils/firebase'
+import 'firebase/auth';
 
 import {
     SafeAreaView,
@@ -19,10 +20,22 @@ import {
     KeyboardAvoidingView
 } from 'react-native';
 import {validateEmail} from "../../../utils/validations"
+import { Alert } from 'react-native';
 
 
 const width = Dimensions.get('window').width
 const RegisterForm = ({navigation}) => {
+
+const [user, setUser] = useState(undefined)
+    
+useEffect(() => {
+    
+    firebase.auth().onAuthStateChanged((response)=> {
+
+        setUser(response);
+    })
+
+}, [])
 
     const [formData, setformData] = useState(defaultValue())
     const [formerror, setFormError] = useState({})
@@ -32,6 +45,8 @@ const RegisterForm = ({navigation}) => {
     
     async function register(){
 
+
+
         let errors ={}
 
         if(!formData.emailf || !formData.password || !formData.repeatPassword ){
@@ -40,18 +55,19 @@ const RegisterForm = ({navigation}) => {
             if(!formData.password) errors.password = true;
             if(!formData.repeatPassword) errors.repeatPassword = true;
         }else if(!validateEmail(formData.emailf)){
-
+            
             errors.emailf = true;
            
 
         }else if(formData.password !== formData.repeatPassword ){
+            alert("Las contraseñas no coinciden")
                 errors.password = true;
                 errors.repeatPassword = true;
 
                
         }else if(formData.password.length < 6){
                 //en firabebase se exige contraseña mayor a 6 caracteres
-
+            alert("LA CONTRASEÑA DEBE SER MAYOR A 6 CARACTERES")
                 errors.password = true;
                 errors.repeatPassword = true;
         }else{
@@ -76,9 +92,11 @@ const RegisterForm = ({navigation}) => {
         
     }
 
- 
+
+
     return (
         <>
+       
         <ScrollView showsVerticalScrollIndicator={false}>
          <View style={LayoutStyles.container}>
             
