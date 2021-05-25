@@ -18,16 +18,51 @@ import {
     Dimensions,
     KeyboardAvoidingView
 } from 'react-native';
+import {validateEmail} from "../../../utils/validations"
+
 
 const width = Dimensions.get('window').width
 const RegisterForm = ({navigation}) => {
 
+    const [formData, setformData] = useState(defaultValue())
+    const [formerror, setFormError] = useState({})
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
     
     
     async function register(){
-        try {
+
+        let errors ={}
+
+        if(!formData.emailf || !formData.password || !formData.repeatPassword ){
+
+            if(!formData.emailf) errors.emailf = true;
+            if(!formData.password) errors.password = true;
+            if(!formData.repeatPassword) errors.repeatPassword = true;
+        }else if(!validateEmail(formData.emailf)){
+
+            errors.emailf = true;
+           
+
+        }else if(formData.password !== formData.repeatPassword ){
+                errors.password = true;
+                errors.repeatPassword = true;
+
+               
+        }else if(formData.password.length < 6){
+                //en firabebase se exige contraseña mayor a 6 caracteres
+
+                errors.password = true;
+                errors.repeatPassword = true;
+        }else{
+            console.log("formulairo  correcto")
+        }
+
+        setFormError(errors)
+
+        console.log(errors)
+
+    {/*try {
         const authStatus = await auth().createUserWithEmailAndPassword(email, password)
         const userInDB = await firestore()
         .collection('users')
@@ -36,7 +71,9 @@ const RegisterForm = ({navigation}) => {
     
         } catch(e) {
         console.log(e)
-        }
+        } */
+    }
+        
     }
 
  
@@ -51,27 +88,30 @@ const RegisterForm = ({navigation}) => {
             <Text> EMAIL</Text>
             <TextInput
                 underlineColor="#967B4A"
-                style={[formStyles.input,formStyles.btnText]}
+                style={[formStyles.input,formStyles.btnText,formerror.emailf && styles.error]}
+                onChange={(e)=> setformData({...formData, emailf: e.nativeEvent.text})}
             />
             <Text> CONTRASEÑA</Text>
              <TextInput
                 
-                style={[formStyles.input,formStyles.btnText]}
+                style={[formStyles.input,formStyles.btnText,formerror.password && styles.error]}
                 secureTextEntry
+                onChange={(e)=> setformData({...formData, password: e.nativeEvent.text})}
             />
              <Text> REPETIR CONTRASEÑA</Text>
              <TextInput
                 
-                style={[formStyles.input,formStyles.btnText]}
+                style={[formStyles.input,formStyles.btnText,formerror.repeatPassword && styles.error]}
                 secureTextEntry
+                onChange={(e)=> setformData({...formData, repeatPassword: e.nativeEvent.text})}
             />
 
-            <Button mode="contained" style={formStyles.btnSucces}>
+            <Button mode="contained" style={formStyles.btnSucces} onPress={()=> register()}>
                 Registarse
             </Button>
-            <Button mode="text" style={formStyles.btnText} labelStyle={formStyles.btnTextLabel}>
+            <Button mode="text" style={formStyles.btnText} labelStyle={formStyles.btnTextLabel} >
                 Iniciar Sesión
-            </Button>
+            </Button >
             </KeyboardAvoidingView>
         </View>
         </ScrollView>
@@ -80,6 +120,18 @@ const RegisterForm = ({navigation}) => {
 
 
 };
+
+
+function defaultValue(){
+
+    return {
+        emailf : "",
+        password: "",
+        repeatPassword: ""
+    }
+}
+
+
 
 const styles = StyleSheet.create({
     user:{
@@ -97,7 +149,14 @@ const styles = StyleSheet.create({
         marginLeft: width/3.7,
         paddingBottom:20,
         marginTop:-8
+    },
+    error:{
+
+        borderColor: "#940c0c",
+
     }
+
+    
 })
 export default  RegisterForm
 
