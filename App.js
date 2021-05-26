@@ -10,6 +10,7 @@ import HomeScreen from "./views/home"
 import Recipes from "./views/recipes"
 import Sabores from "./views/sabores"
 import Postres from "./views/postres"
+import Perfil from './components/category/auth/Perfil'
 import Layout from "./views/layout"
 
 import {
@@ -43,6 +44,7 @@ const App = ({navigation}) => {
         <Drawer.Screen name="Recipes" component={Recipes} />
         <Drawer.Screen name="Sabores" component={Sabores} />
         <Drawer.Screen name="Postres" component={Postres} />
+        <Drawer.Screen name ="Perfil" component ={Perfil}/>
       </Drawer.Navigator>
     </NavigationContainer>
   </SafeAreaProvider>

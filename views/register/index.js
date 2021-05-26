@@ -36,7 +36,7 @@ const Register = ({navigation}) => {
     
 
 
-const [showLogin, setShowLogin] = useState(true)
+const [showLogin, setShowLogin] = useState(false)
 
 const changeForm = () =>{
     setShowLogin(!showLogin);

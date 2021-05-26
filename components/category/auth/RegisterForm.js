@@ -8,6 +8,9 @@ import {LayoutStyles, formStyles } from '../../../components/category/styles';
 import firebase from '../../../utils/firebase'
 import Auth from '../auth/Auth'
 import 'firebase/auth';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 
 import {
     SafeAreaView,
@@ -25,15 +28,20 @@ import { Alert } from 'react-native';
 
 
 const width = Dimensions.get('window').width
-const RegisterForm = (props) => {
 
-    const {changeForm} = props  
+
+
+const RegisterForm = ({navigation,changeForm}) => {
+
+console.log(navigation)
 
 
     const [formData, setformData] = useState(defaultValue())
     const [formerror, setFormError] = useState({})
     const [email, setEmail] = useState(null)
     const [password, setPassword] = useState(null)
+
+   
     
     
     async function register(){
@@ -64,8 +72,21 @@ const RegisterForm = (props) => {
                 errors.password = true;
                 errors.repeatPassword = true;
         }else{
-            console.log("formulairo  correcto")
-            changeForm();
+           firebase.auth().createUserWithEmailAndPassword(formData.emailf,formData.password).then(
+              
+           (ok)=>{
+          
+            navigation.navigate('Perfil')
+           }
+
+
+           ).catch(()=> {
+               setFormError({
+                   emailf: true,
+                   password: true,
+                   repeatPassword: true
+               })
+           })
         }
 
         setFormError(errors)
@@ -128,8 +149,7 @@ const RegisterForm = (props) => {
         </ScrollView>  
         
         
-       
-       
+      
         </>
     )
 
@@ -145,6 +165,7 @@ function defaultValue(){
         repeatPassword: ""
     }
 }
+
 
 
 
