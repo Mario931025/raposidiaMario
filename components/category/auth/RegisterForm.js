@@ -6,6 +6,7 @@ import firestore from '@react-native-firebase/firestore'
 import Layout from "../../../views/layout"
 import {LayoutStyles, formStyles } from '../../../components/category/styles';
 import firebase from '../../../utils/firebase'
+import Auth from '../auth/Auth'
 import 'firebase/auth';
 
 import {
@@ -24,18 +25,10 @@ import { Alert } from 'react-native';
 
 
 const width = Dimensions.get('window').width
-const RegisterForm = ({navigation}) => {
+const RegisterForm = (props) => {
 
-const [user, setUser] = useState(undefined)
-    
-useEffect(() => {
-    
-    firebase.auth().onAuthStateChanged((response)=> {
+    const {changeForm} = props  
 
-        setUser(response);
-    })
-
-}, [])
 
     const [formData, setformData] = useState(defaultValue())
     const [formerror, setFormError] = useState({})
@@ -72,6 +65,7 @@ useEffect(() => {
                 errors.repeatPassword = true;
         }else{
             console.log("formulairo  correcto")
+            changeForm();
         }
 
         setFormError(errors)
@@ -93,11 +87,10 @@ useEffect(() => {
     }
 
 
-
     return (
         <>
-       
-        <ScrollView showsVerticalScrollIndicator={false}>
+  
+         <ScrollView showsVerticalScrollIndicator={false}>
          <View style={LayoutStyles.container}>
             
          <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" :"height"}>
@@ -127,12 +120,16 @@ useEffect(() => {
             <Button mode="contained" style={formStyles.btnSucces} onPress={()=> register()}>
                 Registarse
             </Button>
-            <Button mode="text" style={formStyles.btnText} labelStyle={formStyles.btnTextLabel} >
+            <Button mode="text" style={formStyles.btnText} labelStyle={formStyles.btnTextLabel}    onPress={changeForm}>
                 Iniciar Sesión
             </Button >
             </KeyboardAvoidingView>
         </View>
-        </ScrollView>
+        </ScrollView>  
+        
+        
+       
+       
         </>
     )
 

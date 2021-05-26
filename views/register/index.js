@@ -4,8 +4,11 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import Layout from "../layout"
 import RegisterForm  from '../../components/category/auth/RegisterForm'
+import Auth from '../../components/category/auth/Auth'
 import user from '../../assets/png/default-user-image.png'
 import {LayoutStyles} from '../../components/category/styles';
+import firebase from '../../utils/firebase'
+import 'firebase/auth';
 import { Avatar } from 'react-native-paper';
 
 import {
@@ -23,12 +26,22 @@ import {
 } from 'react-native';
 import { Platform } from 'react-native';
 
+
+
+
 const width = Dimensions.get('window').width
 
 
 const Register = ({navigation}) => {
+    
 
-const [showLogin, setShowLogin] = useState(false)
+
+const [showLogin, setShowLogin] = useState(true)
+
+const changeForm = () =>{
+    setShowLogin(!showLogin);
+}
+
 
 
 return (
@@ -38,8 +51,8 @@ return (
        
         
             {
-               showLogin ?  <Text style={styles.titulo} >LOGIN</Text>
-               : <RegisterForm/>
+               showLogin ?  <Auth changeForm={changeForm}/>
+               : <RegisterForm changeForm={changeForm}/>
             }
         
           
