@@ -59,8 +59,18 @@ const {changeForm} = props
                     errors.password = true;
                    
             }else{
-                console.log("Iniciando sesión")
-               console.log(formData)
+               
+                firebase.auth().signInWithEmailAndPassword(formData.emailf,formData.password)
+                .then(()=>{
+                    console.log("OK")
+                })
+                .catch(()=>{
+                    setFormError({
+                        emailf: true,
+                        password: true
+                    })
+                })
+
             }
     
             setFormError(errors)

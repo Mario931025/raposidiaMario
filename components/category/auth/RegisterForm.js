@@ -71,9 +71,8 @@ const RegisterForm = ({navigation,changeForm}) => {
                 errors.password = true;
                 errors.repeatPassword = true;
         }else{
-           firebase.auth().createUserWithEmailAndPassword(formData.emailf,formData.password).then(
-              
-           (ok)=>{
+           firebase.auth().createUserWithEmailAndPassword(formData.emailf,formData.password)
+           .then(()=>{
           
          
            }
