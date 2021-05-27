@@ -32,10 +32,11 @@ const {changeForm} = props
     
         const [formData, setformData] = useState(defaultValue())
         const [formerror, setFormError] = useState({})
-       
+      
+
         
         
-        async function register(){
+      function login(){
     
     
     
@@ -45,31 +46,26 @@ const {changeForm} = props
     
                 if(!formData.emailf) errors.emailf = true;
                 if(!formData.password) errors.password = true;
+          
+                
              
             }else if(!validateEmail(formData.emailf)){
-                alert("EL correo debe ser ingreso con el siguiente formato 'XXX@CORREO.COM'")
+               alert("EL FORMATO DEBE SER XXXX@CORREO.COM");
                 errors.emailf = true;
-               
-    
-            }else if(!formData.password){
-                alert("Las contraseña es incorrecta ")
-                    errors.password = true;
-                    
-    
-                   
+            
             }else if(formData.password.length < 6){
                     //en firabebase se exige contraseña mayor a 6 caracteres
                 alert("LA CONTRASEÑA DEBE SER MAYOR A 6 CARACTERES")
                     errors.password = true;
                    
             }else{
-               changeForm();
+                console.log("Iniciando sesión")
+               console.log(formData)
             }
     
             setFormError(errors)
     
-            console.log(errors)
-    
+           
         {/*try {
             const authStatus = await auth().createUserWithEmailAndPassword(email, password)
             const userInDB = await firestore()
@@ -83,6 +79,17 @@ const {changeForm} = props
         }
             
         }
+
+        const onType = (e,type) => {
+
+         //  console.log("data:", e.nativeEvent.text)
+         //   console.log("Type:", type)
+        
+            setformData({
+             ...formData, [type]: e.nativeEvent.text
+         })
+        }   
+        
     
     
         return (
@@ -98,18 +105,31 @@ const {changeForm} = props
                 <TextInput
                     underlineColor="#967B4A"
                     style={[formStyles.input,formStyles.btnText,formerror.emailf && styles.error]}
-                    onChange={(e)=> setformData({...formData, emailf: e.nativeEvent.text})}
+                    onChange={(e)=>
+                        {
+                           
+                            onType(e, 'emailf')
+                            setformData({...formData, emailf: e.nativeEvent.text})
+                        } 
+                    
+                } 
                 />
                 <Text> CONTRASEÑA</Text>
                  <TextInput
                     
                     style={[formStyles.input,formStyles.btnText,formerror.password && styles.error]}
                     secureTextEntry
-                    onChange={(e)=> setformData({...formData, password: e.nativeEvent.text})}
+                    onChange={(e)=> { 
+                       
+                        onType(e, 'password')
+                        setformData({...formData, password: e.nativeEvent.text})
+                    } 
+                }
+                        
                 />
-                
+               
     
-                <Button mode="contained" style={[formStyles.btnSucces,styles.btnLogin ]} onPress={()=> register()}>
+                <Button mode="contained" style={[formStyles.btnSucces,styles.btnLogin ]} onPress={()=> login()}>
                     INICIA SESIÓN
                 </Button>
                 <Button mode="text" style={[formStyles.btnText,styles.btnRegister ]} labelStyle={formStyles.btnTextLabel}
@@ -136,7 +156,7 @@ const {changeForm} = props
             password: "",
         }
     }
-    
+ 
     
     
     const styles = StyleSheet.create({
@@ -171,5 +191,7 @@ const {changeForm} = props
     
         
     })
+
+
     export default Auth
     

@@ -33,7 +33,6 @@ const width = Dimensions.get('window').width
 
 const RegisterForm = ({navigation,changeForm}) => {
 
-console.log(navigation)
 
 
     const [formData, setformData] = useState(defaultValue())
@@ -56,7 +55,7 @@ console.log(navigation)
             if(!formData.password) errors.password = true;
             if(!formData.repeatPassword) errors.repeatPassword = true;
         }else if(!validateEmail(formData.emailf)){
-            
+            alert("EL FORMATO DEBE SER XXXX@CORREO,COM")
             errors.emailf = true;
            
 
@@ -76,7 +75,7 @@ console.log(navigation)
               
            (ok)=>{
           
-            navigation.navigate('Perfil')
+         
            }
 
 
