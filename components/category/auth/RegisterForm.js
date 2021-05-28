@@ -1,12 +1,9 @@
 import React, {useState,useEffect} from 'react';
-import {TextInput,Button} from 'react-native-paper'
 import 'react-native-gesture-handler';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-import Layout from "../../../views/layout"
-import {LayoutStyles, formStyles } from '../../../components/category/styles';
 import firebase from '../../../utils/firebase'
-import Auth from '../auth/Auth'
+import 'firebase/auth';
 import 'firebase/auth';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -23,27 +20,24 @@ import {
     Dimensions,
     KeyboardAvoidingView
 } from 'react-native';
+import {LayoutStyles, formStyles } from '../../../components/category/styles';
+import {TextInput,Button} from 'react-native-paper'
 import {validateEmail} from "../../../utils/validations"
 import { Alert } from 'react-native';
 
 
+
 const width = Dimensions.get('window').width
 
+function RegisterForm(props) {
 
-
-const RegisterForm = ({navigation,changeForm}) => {
-
-
-
+    const {changeForm} = props;
     const [formData, setformData] = useState(defaultValue())
     const [formerror, setFormError] = useState({})
-    const [email, setEmail] = useState(null)
-    const [password, setPassword] = useState(null)
-
-   
     
     
-    async function register(){
+    
+ function register(){
 
 
 
@@ -71,14 +65,14 @@ const RegisterForm = ({navigation,changeForm}) => {
                 errors.password = true;
                 errors.repeatPassword = true;
         }else{
-           firebase.auth().createUserWithEmailAndPassword(formData.emailf,formData.password)
+           firebase
+           .auth()
+           .createUserWithEmailAndPassword(formData.emailf,formData.password)
            .then(()=>{
           
+            console.log("has creado usuario nuevo")
          
-           }
-
-
-           ).catch(()=> {
+           }).catch(()=> {
                setFormError({
                    emailf: true,
                    password: true,
@@ -88,60 +82,52 @@ const RegisterForm = ({navigation,changeForm}) => {
         }
 
         setFormError(errors)
-
         console.log(errors)
+ 
+    }
+ 
+   
 
-    {/*try {
-        const authStatus = await auth().createUserWithEmailAndPassword(email, password)
-        const userInDB = await firestore()
-        .collection('users')
-        .doc(authStatus.user.uid)
-        .set({email})
     
-        } catch(e) {
-        console.log(e)
-        } */
-    }
-        
-    }
-
 
     return (
         <>
   
-         <ScrollView showsVerticalScrollIndicator={false}>
-         <View style={LayoutStyles.container}>
-            
-         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" :"height"}>
-            <Text style={styles.titulo} >REGISTRO</Text>
-            <Image style={styles.user} source={require('../../../assets/png/default-user-image.png')}/>
-            <Text> EMAIL</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={LayoutStyles.container}>
+           
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" :"height"}>
+           <Text style={styles.titulo} >REGISTRO</Text>
+           <Image style={styles.user} source={require('../../../assets/png/default-user-image.png')}/>
+           <Text> EMAIL</Text>
+           <TextInput
+               underlineColor="#967B4A"
+               style={[formStyles.input,formStyles.btnText,formerror.emailf && styles.error]}
+               onChange={(e)=> setformData({...formData, emailf: e.nativeEvent.text})}
+           />
+           <Text> CONTRASEÑA</Text>
             <TextInput
-                underlineColor="#967B4A"
-                style={[formStyles.input,formStyles.btnText,formerror.emailf && styles.error]}
-                onChange={(e)=> setformData({...formData, emailf: e.nativeEvent.text})}
-            />
-            <Text> CONTRASEÑA</Text>
-             <TextInput
-                
-                style={[formStyles.input,formStyles.btnText,formerror.password && styles.error]}
-                secureTextEntry
-                onChange={(e)=> setformData({...formData, password: e.nativeEvent.text})}
-            />
-             <Text> REPETIR CONTRASEÑA</Text>
-             <TextInput
-                
-                style={[formStyles.input,formStyles.btnText,formerror.repeatPassword && styles.error]}
-                secureTextEntry
-                onChange={(e)=> setformData({...formData, repeatPassword: e.nativeEvent.text})}
-            />
+               
+               style={[formStyles.input,formStyles.btnText,formerror.password && styles.error]}
+               secureTextEntry
+               onChange={(e)=> setformData({...formData, password: e.nativeEvent.text})}
+           />
+            <Text> REPETIR CONTRASEÑA</Text>
+            <TextInput
+               
+               style={[formStyles.input,formStyles.btnText,formerror.repeatPassword && styles.error]}
+               secureTextEntry
+               onChange={(e)=> setformData({...formData, repeatPassword: e.nativeEvent.text})}
+           />
 
-            <Button mode="contained" style={formStyles.btnSucces} onPress={()=> register()}>
-                Registarse
-            </Button>
-            <Button mode="text" style={formStyles.btnText} labelStyle={formStyles.btnTextLabel}    onPress={changeForm}>
+           <Button mode="contained" style={formStyles.btnSucces} onPress={()=> register()}>
+               Registarse
+           </Button>
+        
+               <Button mode="text" style={formStyles.btnText} labelStyle={formStyles.btnTextLabel}    onPress={changeForm}>
                 Iniciar Sesión
             </Button >
+
             </KeyboardAvoidingView>
         </View>
         </ScrollView>  
@@ -149,11 +135,10 @@ const RegisterForm = ({navigation,changeForm}) => {
         
       
         </>
+        
     )
 
-
-};
-
+ }
 
 function defaultValue(){
 
@@ -163,8 +148,6 @@ function defaultValue(){
         repeatPassword: ""
     }
 }
-
-
 
 
 const styles = StyleSheet.create({
@@ -192,5 +175,5 @@ const styles = StyleSheet.create({
 
     
 })
-export default  RegisterForm
 
+export default  RegisterForm

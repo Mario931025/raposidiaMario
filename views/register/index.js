@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import Layout from "../layout"
@@ -34,9 +34,17 @@ const width = Dimensions.get('window').width
 
 const Register = ({navigation}) => {
     
-
+const [user, setuser] = useState(undefined)
 
 const [showLogin, setShowLogin] = useState(true)
+
+useEffect(() => {
+   
+    firebase.auth().onAuthStateChanged((response)=> {
+        setuser(response)
+    })
+}, [])
+
 
 const changeForm = () =>{
     setShowLogin(!showLogin);
@@ -47,13 +55,36 @@ const changeForm = () =>{
 return (
     <>
     <Layout nav={() => navigation.openDrawer()}/>
+      
+    
+      
         <View style={LayoutStyles.container}>
+
+        {user ? 
+           <Auth changeForm={changeForm} /> 
+        : <Text> Estas Logeado</Text>
+        }
+    
+      
+       { /* 
        
-        
-            {
-               showLogin ?  <Auth changeForm={changeForm}/>
-               : <RegisterForm changeForm={changeForm}/>
+        {
+               showLogin ?  
+               <View>
+                <Auth changeForm={changeForm} /> 
+               </View>
+              
+               : 
+               <View>
+               <RegisterForm changeForm={changeForm}/> 
+               </View>
             }
+
+       */}
+         
+    
+        
+         
         
           
         </View>
@@ -88,21 +119,5 @@ return (
 };
 
 
-const styles = StyleSheet.create({
-    user:{
-        width:"100%",
-        height:150,
-        resizeMode:"contain",
-        marginBottom:20,
-       borderRadius:80
-    },
-    titulo:{
-        fontSize: width/18, 
-        fontWeight: 'bold', 
-        marginVertical: 5,
-        marginLeft: width/3,
-        paddingBottom:20
-    }
-})
 
 export default Register;
