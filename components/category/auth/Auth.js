@@ -4,8 +4,12 @@ import  LoginForm  from './LoginForm'
 import  RegisterForm  from './RegisterForm'
 
 
-export default function Auth() {
+
+
+export default function Auth(props) {
 const [isLogin, setisLogin] = useState(true)
+
+const {navigation} = props
 
 const changeForm = () =>{
     setisLogin(!isLogin)
@@ -13,8 +17,8 @@ const changeForm = () =>{
 
     return (
         <View>
-           {isLogin ? (<LoginForm changeForm={changeForm}/>) 
-           :(<RegisterForm changeForm={changeForm}/>) }
+           {isLogin ? (<LoginForm changeForm={changeForm} navigation={navigation}/>) 
+           :(<RegisterForm changeForm={changeForm} navigation={navigation}/>) }
         </View>
     )
 }

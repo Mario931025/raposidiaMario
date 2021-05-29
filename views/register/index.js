@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import Layout from "../layout"
 import RegisterForm  from '../../components/category/auth/RegisterForm'
+import LoginForm  from '../../components/category/auth/LoginForm'
 import Auth from '../../components/category/auth/Auth'
 import user from '../../assets/png/default-user-image.png'
 import {LayoutStyles} from '../../components/category/styles';
@@ -36,7 +37,6 @@ const Register = ({navigation}) => {
     
 const [user, setuser] = useState(undefined)
 
-const [showLogin, setShowLogin] = useState(true)
 
 useEffect(() => {
    
@@ -46,9 +46,7 @@ useEffect(() => {
 }, [])
 
 
-const changeForm = () =>{
-    setShowLogin(!showLogin);
-}
+if( user === undefined) return null;
 
 
  
@@ -60,11 +58,7 @@ return (
       
         <View style={LayoutStyles.container}>
 
-        {user ? 
-           <Auth changeForm={changeForm} /> 
-        : <Text> Estas Logeado</Text>
-        }
-    
+       {!user ?  <LoginForm  navigation={navigation}/>  :    <RegisterForm  navigation={navigation}/>  } 
       
        { /* 
        

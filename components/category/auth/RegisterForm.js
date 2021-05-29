@@ -4,7 +4,7 @@ import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
 import firebase from '../../../utils/firebase'
 import 'firebase/auth';
-import 'firebase/auth';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -30,6 +30,8 @@ import { Alert } from 'react-native';
 const width = Dimensions.get('window').width
 
 function RegisterForm(props) {
+    
+    const {navigation} = props
 
     const {changeForm} = props;
     const [formData, setformData] = useState(defaultValue())
@@ -71,6 +73,7 @@ function RegisterForm(props) {
            .then(()=>{
           
             console.log("has creado usuario nuevo")
+            navigation.navigate('Perfil')
          
            }).catch(()=> {
                setFormError({

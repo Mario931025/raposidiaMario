@@ -2,35 +2,26 @@
 import React, {useState,useEffect} from 'react';
 import 'react-native-gesture-handler';
 import {
-    SafeAreaView,
     StyleSheet,
     ScrollView,
     View,
     Text,
     Image,
-    StatusBar,
     Dimensions,
     KeyboardAvoidingView
 } from 'react-native';
 import {LayoutStyles, formStyles } from '../../../components/category/styles';
 import {TextInput,Button} from 'react-native-paper'
 import firebase from '../../../utils/firebase'
-import 'firebase/auth';
 import {validateEmail} from "../../../utils/validations"
-import { Alert } from 'react-native';
 
 
 
 const width = Dimensions.get('window').width
 
 
-const LoginForm = (props) => {
+const LoginForm = ({navigation, changeForm}) => {
 
-    const [user, setuser] = useState(undefined);
-    const [isLogin, setisLogin] = useState(true)
-
-
-const {changeForm} = props   
     
         const [formData, setformData] = useState(defaultValue())
         const [formerror, setFormError] = useState({})
@@ -63,10 +54,10 @@ const {changeForm} = props
             }else{
                
                 firebase.auth().signInWithEmailAndPassword(formData.emailf,formData.password)
-                .then(()=>{
-
-console.log("OK")
-
+                .then(function (user){
+                    console.log(user)
+                    console.log(navigation)
+                    navigation.navigate('Perfil')
                 })
                 .catch(()=>{
                     setFormError({

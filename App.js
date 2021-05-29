@@ -11,7 +11,6 @@ import Recipes from "./views/recipes"
 import Sabores from "./views/sabores"
 import Postres from "./views/postres"
 import Perfil from './components/category/auth/Perfil'
-import Layout from "./views/layout"
 
 import {
   SafeAreaView,
@@ -39,12 +38,12 @@ const App = ({navigation}) => {
       drawerStyle={{width: '84%'}}
       drawerContent={props => <DrawerContent { ...props}/>}
       >
-        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Home" component={HomeScreen}  />
         <Drawer.Screen name="Register" component={Register} />
         <Drawer.Screen name="Recipes" component={Recipes} />
         <Drawer.Screen name="Sabores" component={Sabores} />
         <Drawer.Screen name="Postres" component={Postres} />
-        <Drawer.Screen name ="Perfil" component ={Perfil}/>
+        <Drawer.Screen name ="Perfil" component ={Perfil} navigation={navigation}/>
       </Drawer.Navigator>
     </NavigationContainer>
   </SafeAreaProvider>
