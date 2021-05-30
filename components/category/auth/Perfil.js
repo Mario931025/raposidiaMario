@@ -104,6 +104,7 @@ export default function Perfil(props) {
             />
             <Text> EMAIL</Text>
             <TextInput
+              value={user.email}
               underlineColor="#967B4A"
               style={[
                 formStyles.input,
@@ -117,6 +118,7 @@ export default function Perfil(props) {
             />
             <Text> CONTRASEÑA</Text>
             <TextInput
+              value={user.password}
               style={[
                 formStyles.input,
                 formStyles.btnText,
@@ -128,7 +130,19 @@ export default function Perfil(props) {
                 setformData({...formData, password: e.nativeEvent.text});
               }}
             />
-
+            <TextInput
+              style={[
+                formStyles.input,
+                formStyles.btnText,
+                formerror.password && styles.error,
+              ]}
+              secureTextEntry
+              onChange={(e) => {
+                onType(e, 'password');
+                setformData({...formData, password: e.nativeEvent.text});
+              }}
+              placeholder={'Ingresa tu nueva contraseña'}
+            />
             <Button
               mode="contained"
               style={[formStyles.btnSucces, styles.btnLogin]}
