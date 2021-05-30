@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import 'react-native-gesture-handler';
 import {
   StyleSheet,
@@ -17,10 +17,18 @@ import Layout from '../../../views/layout';
 import 'firebase/auth';
 import {Platform} from 'react-native';
 import {Alert} from 'react-native';
+import {StoreContext} from '../../../core';
 
 const width = Dimensions.get('window').width;
 
 export default function Perfil(props) {
+  //Access user global state
+  const {state} = useContext(StoreContext);
+  const {globalState} = state;
+  const {user} = globalState;
+  console.log('user form profile=>', user);
+  //Access user global state
+
   const {navigation} = props;
 
   const [formData, setformData] = useState(defaultValue());

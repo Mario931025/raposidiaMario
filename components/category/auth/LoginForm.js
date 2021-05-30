@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import 'react-native-gesture-handler';
 import {
   StyleSheet,
@@ -15,10 +15,13 @@ import {TextInput, Button} from 'react-native-paper';
 import firebase from '../../../utils/firebase';
 import {validateEmail} from '../../../utils/validations';
 import {Platform} from 'react-native';
+import {StoreContext} from '../../../core';
+import {setUserDispatch} from '../../../core/global/actions';
 
 const width = Dimensions.get('window').width;
 
 const LoginForm = ({navigation, changeForm, setValues}) => {
+  const {globalDispatch} = useContext(StoreContext);
   const [formData, setformData] = useState(defaultValue());
   const [formerror, setFormError] = useState({});
 
@@ -57,7 +60,10 @@ const LoginForm = ({navigation, changeForm, setValues}) => {
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(formData.emailf, formData.password);
-
+      setUserDispatch(
+        {email: formData.emailf, password: formData.password},
+        globalDispatch,
+      );
       console.log('response user =>', user);
       navigation.navigate('Perfil');
     } catch (error) {
